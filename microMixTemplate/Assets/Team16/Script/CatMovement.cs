@@ -9,6 +9,8 @@ namespace team99
         // Public variables
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
+        public float swipeDistance = 1f;
+        public float swipeDuration = 0.5f;
         public LayerMask interactableLayer;
         public Vector2 minBounds;
         public Vector2 maxBounds;
@@ -83,40 +85,32 @@ namespace team99
         // Called when button 1 is pressed
         protected override void OnButton1Pressed(InputAction.CallbackContext context)
         {
-            // Check if the cat is holding an object
-            if (!isHoldingObject)
-            {
-                // Check for interactable objects within a circle around the cat paw
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(catPaw.position, 0.5f, interactableLayer);
-                if (colliders.Length > 0)
-                {
-                    // If an object is found, pick it up
-                    Rigidbody2D objectRb = colliders[0].GetComponent<Rigidbody2D>();
-                    if (objectRb != null)
-                    {
-                        objectRb.simulated = false;
-                        objectRb.transform.SetParent(catPaw.transform);
-                        isHoldingObject = true;
-                    }
-                }
-            }
-            else
-            {
-                // If holding an object, release it
-                Rigidbody2D heldObjectRb = catPaw.GetComponentInChildren<Rigidbody2D>();
-                if (heldObjectRb != null)
-                {
-                    heldObjectRb.simulated = true;
-                    heldObjectRb.transform.SetParent(null);
-                    isHoldingObject = false;
-                }
-            }
+            // Swipe left
+            StartCoroutine(Swipe(-swipeDistance, swipeDuration));
         }
 
         // Called when button 2 is pressed
         protected override void OnButton2Pressed(InputAction.CallbackContext context)
         {
-            // Additional input action logic can be added here if needed
+            // Swipe right
+            StartCoroutine(Swipe(swipeDistance, swipeDuration));
+        }
+
+        // Coroutine for swipe motion
+        IEnumerator Swipe(float distance, float duration)
+        {
+            Vector3 startPosition = catPaw.position;
+            Vector3 endPosition = startPosition + new Vector3(distance, 0, 0);
+            float startTime = Time.time;
+
+            while (Time.time < startTime + duration)
+            {
+                float t = (Time.time - startTime) / duration;
+                catPaw.position = Vector3.Lerp(startPosition, endPosition, t);
+                yield return null;
+            }
+
+            catPaw.position = endPosition;
         }
 
         // Reset the cat's position
@@ -129,7 +123,7 @@ namespace team99
             StartCoroutine(LerpBackToCenter());
         }
 
-        // Coroutine to lerping the cat back to the center position
+        // Coroutine to lerp the cat back to the center position
         IEnumerator LerpBackToCenter()
         {
             float elapsedTime = 0;
