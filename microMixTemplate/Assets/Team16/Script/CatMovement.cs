@@ -7,7 +7,7 @@ namespace team99
     public class CatMovement : MicrogameInputEvents
     {
         // Public variables
-        public Rigidbody2D catPaw;
+        public Rigidbody catPaw;
         public float pawSpeed = 5f;
         public LayerMask interactableLayer;
         public Vector2 minBounds;
