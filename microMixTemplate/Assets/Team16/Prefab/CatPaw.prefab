@@ -165,7 +165,11 @@ MonoBehaviour:
   idlePosition: {x: 0, y: 0, z: 0}
   whackValue: 50
   swipeSounds:
-  - {fileID: 8300000, guid: 12bd3041a68747e44878078470625c83, type: 3}
+  - {fileID: 8300000, guid: 8e61638fac0075a46a145a7be8b940ce, type: 3}
+  - {fileID: 8300000, guid: 5aff607ff379f8043b1ad74f91c34afb, type: 3}
+  - {fileID: 8300000, guid: 67e54cbe99d71784bbe3d879caa375a7, type: 3}
+  - {fileID: 8300000, guid: 7ea34a32200527f46adc5f11169d005d, type: 3}
+  - {fileID: 8300000, guid: 183146ee2773f5947ac075759a3eb7e2, type: 3}
   - {fileID: 8300000, guid: 0ca7b87ab1dde0048b9904b0f8e17ea5, type: 3}
   - {fileID: 8300000, guid: 18a82d5fe46894f43a5d4b1a9154df89, type: 3}
   - {fileID: 8300000, guid: 70c5c2bcf1f1a1a49aae4baced122595, type: 3}
