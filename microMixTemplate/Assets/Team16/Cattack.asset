@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeInRandomizer: 1
   teamNumber: 0
-  gameTitle: Cattack
+  gameTitle: Feline Frenzy
   gameIcon: {fileID: 0}
   prompt: Cause Chaos
   singlePlayerScene: {fileID: 102900000, guid: 5901702471ac3164fa8c2b83b2edcf33, type: 3}
-  twoPlayerScene: {fileID: 102900000, guid: 1ad25cb67f89f4247b536105a7e72f7b, type: 3}
+  twoPlayerScene: {fileID: 102900000, guid: 49bae926d0eabe8438c04d192ff4cadf, type: 3}
   controls: []
   rightPlayerAltControls: []
   singlePlayerScenePath: Assets/Team16/Scene/CattackP1.unity
-  twoPlayerScenePath: 
+  twoPlayerScenePath: Assets/Team16/Scene/CattackP2.unity
   postgameMessages:
   - Shiver Me Whiskers
   bannerImage: {fileID: 0}

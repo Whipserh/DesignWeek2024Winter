@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ShowBoundaries : MonoBehaviour
+public class ShowBoundaries : MicrogameInputEvents
 {
     void OnDrawGizmosSelected()
     {

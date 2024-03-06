@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoundaryConstraint : MonoBehaviour
+public class BoundaryConstraint : MicrogameInputEvents
 {
     public Transform target;
     public GameObject boundary; 

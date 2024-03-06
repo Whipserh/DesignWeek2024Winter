@@ -7,6 +7,7 @@ namespace team16
     public class CatMovement : MicrogameInputEvents
     {
         // Public variables
+        public GameManager gameManager;
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
 
@@ -50,6 +51,11 @@ namespace team16
         // Called when time is up in the microgame
         protected override void OnTimesUp()
         {
+            // Trigger happy owner ending if time is up and no action was taken
+            if (canSwipe)
+            {
+                gameManager.TriggerHappyOwnerEnding();
+            }
         }
 
         // Called every frame
@@ -191,7 +197,33 @@ namespace team16
                     Vector3 forceDirection = catPaw.velocity.normalized;
                     collidedRigidbody.AddForce(forceDirection * whackValue, ForceMode.Impulse);
                 }
+
+                // Check if all Tag0 objects are outside camera view
+                bool allObjectsOutsideCameraView = true;
+                GameObject[] tag0Objects = GameObject.FindGameObjectsWithTag("Tag0");
+                foreach (GameObject obj in tag0Objects)
+                {
+                    if (IsObjectInView(obj))
+                    {
+                        allObjectsOutsideCameraView = false;
+                        break;
+                    }
+                }
+
+                if (allObjectsOutsideCameraView)
+                {
+                    // Trigger chaos ending
+                    ReportGameCompletedEarly();
+                    gameManager.TriggerChaosEnding();
+                }
             }
+        }
+
+        // Check if an object is outside camera view
+        private bool IsObjectInView(GameObject obj)
+        {
+            Vector3 screenPoint = Camera.main.WorldToViewportPoint(obj.transform.position);
+            return screenPoint.x < 0 || screenPoint.x > 1 || screenPoint.y < 0 || screenPoint.y > 1;
         }
     }
 }
