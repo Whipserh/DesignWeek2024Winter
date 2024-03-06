@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameController : MicrogameInputEvents
 {
 
     public static int items;
@@ -17,12 +17,15 @@ public class GameController : MonoBehaviour
     {
         if(items == 0)
         {
-       //     ReportGameCompletedEarly();
+                 ReportGameCompletedEarly();
         }
     }
 
-    //private void OnColliderEnter(Collider collision)
-    //{
-    //    items--;
-    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.tag == "Tag1")
+        {
+            items--;
+        }
+    }
 }
