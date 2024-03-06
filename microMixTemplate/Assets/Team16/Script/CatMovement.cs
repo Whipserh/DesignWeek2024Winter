@@ -20,8 +20,11 @@ namespace team16
         public float whackValue = 10f;
         public AudioClip[] swipeSounds; // Array of swipe sound effects
 
-        // Reference to the Line Renderer
+        // Reference to the trail Renderer
         public TrailRenderer trailRenderer;
+
+        // Reference to the Particle System
+        public ParticleSystem swipeParticle;
 
         // Private variables
         private Vector2 perlinOffset;
@@ -97,10 +100,17 @@ namespace team16
             // Disable swiping during cooldown
             canSwipe = false;
 
-            // Disable Line Renderer
+            // Disable Trail Renderer
             if (trailRenderer != null)
             {
                 trailRenderer.enabled = false;
+            }
+
+            // Instantiate Particle System
+            if (swipeParticle != null)
+            {
+                ParticleSystem particleInstance = Instantiate(swipeParticle, catPaw.position, Quaternion.identity);
+                particleInstance.Play();
             }
 
             Quaternion startRotation = catPaw.rotation;
@@ -120,7 +130,7 @@ namespace team16
             // Rotate back to initial rotation
             StartCoroutine(RotateBack(initialRotation, resetDuration, speed));
 
-            // Enable Line Renderer
+            // Enable Trail Renderer
             if (trailRenderer != null)
             {
                 trailRenderer.enabled = true;
