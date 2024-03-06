@@ -495,9 +495,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getInputFrom: 0
   catPaw: {fileID: 1883114504}
-  pawSpeed: 20
-  swipeDistance: 2
-  swipeDuration: 0.5
+  pawSpeed: 10
+  swipeDistance: 1
+  swipeDuration: 0.3
+  swipeSpeed: 10
+  swipeAngle: 45
   interactableLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -805,8 +807,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1854053354}
   - {fileID: 1029921586}
+  - {fileID: 1854053354}
   - {fileID: 2129218615}
   - {fileID: 451218494}
   - {fileID: 811124967}

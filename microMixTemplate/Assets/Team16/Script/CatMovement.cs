@@ -10,11 +10,16 @@ namespace team99
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
         public float swipeDistance = 1f;
+
         public float swipeDuration = 0.5f;
+        public float swipeSpeed = 5f;
+        public float swipeAngle = 45f;
+
         public LayerMask interactableLayer;
         public Vector2 minBounds;
         public Vector2 maxBounds;
         public float speed = 1.0f;
+       
         public AnimationCurve perlinCurve;
         public float lerpFactor = 1f;
 
@@ -23,6 +28,8 @@ namespace team99
         private Coroutine movementCoroutine;
         private Vector2 perlinOffset;
         private bool gameStarted = false;
+        private Quaternion initialRotation;
+        private float resetDuration = 0.5f;
 
         // Awake is called when the script instance is being loaded
         void Awake()
@@ -35,6 +42,7 @@ namespace team99
         protected override void OnGameStart()
         {
             gameStarted = true;
+            initialRotation = catPaw.rotation;
             // Start the coroutine for moving the cat with Perlin noise
             movementCoroutine = StartCoroutine(MoveWithPerlinNoise());
         }
@@ -86,31 +94,52 @@ namespace team99
         protected override void OnButton1Pressed(InputAction.CallbackContext context)
         {
             // Swipe left
-            StartCoroutine(Swipe(-swipeDistance, swipeDuration));
+            StartCoroutine(Swipe(-swipeAngle, swipeDuration, swipeSpeed));
         }
 
         // Called when button 2 is pressed
         protected override void OnButton2Pressed(InputAction.CallbackContext context)
         {
             // Swipe right
-            StartCoroutine(Swipe(swipeDistance, swipeDuration));
+            StartCoroutine(Swipe(swipeAngle, swipeDuration, swipeSpeed));
         }
 
         // Coroutine for swipe motion
-        IEnumerator Swipe(float distance, float duration)
+        IEnumerator Swipe(float angle, float duration, float speed)
         {
-            Vector3 startPosition = catPaw.position;
-            Vector3 endPosition = startPosition + new Vector3(distance, 0, 0);
+            Quaternion startRotation = catPaw.rotation;
+            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
             float startTime = Time.time;
 
             while (Time.time < startTime + duration)
             {
                 float t = (Time.time - startTime) / duration;
-                catPaw.position = Vector3.Lerp(startPosition, endPosition, t);
+                float step = speed * Time.deltaTime;
+                catPaw.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
                 yield return null;
             }
 
-            catPaw.position = endPosition;
+            catPaw.rotation = targetRotation;
+
+            // Rotate back to initial rotation
+            StartCoroutine(RotateBack(initialRotation, resetDuration, speed));
+        }
+
+        // Coroutine to rotate back to the initial rotation
+        IEnumerator RotateBack(Quaternion targetRotation, float duration, float speed)
+        {
+            Quaternion startRotation = catPaw.rotation;
+            float startTime = Time.time;
+
+            while (Time.time < startTime + duration)
+            {
+                float t = (Time.time - startTime) / duration;
+                float step = speed * Time.deltaTime;
+                catPaw.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+                yield return null;
+            }
+
+            catPaw.rotation = targetRotation;
         }
 
         // Reset the cat's position
@@ -141,3 +170,4 @@ namespace team99
         }
     }
 }
+
