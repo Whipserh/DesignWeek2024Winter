@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MicrogameInputEvents
+public class GameController : MicrogameInputEvents
+
 {
 
     public static int items;
@@ -23,7 +24,7 @@ public class GameController : MicrogameInputEvents
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Tag1")
+       // if (collision.tag == "Tag1")
         {
             items--;
         }
