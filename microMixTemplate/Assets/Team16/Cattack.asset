@@ -22,7 +22,7 @@ MonoBehaviour:
   controls: []
   rightPlayerAltControls: []
   singlePlayerScenePath: Assets/Team16/Scene/CattackP1.unity
-  twoPlayerScenePath: Assets/Team16/Scene/CattackP2.unity
+  twoPlayerScenePath: 
   postgameMessages:
   - Shiver Me Whiskers
   bannerImage: {fileID: 0}

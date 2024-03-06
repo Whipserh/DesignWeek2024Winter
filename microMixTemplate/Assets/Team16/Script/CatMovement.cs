@@ -20,6 +20,9 @@ namespace team16
         public float whackValue = 10f;
         public AudioClip[] swipeSounds; // Array of swipe sound effects
 
+        // Reference to the Line Renderer
+        public TrailRenderer trailRenderer;
+
         // Private variables
         private Vector2 perlinOffset;
         private bool gameStarted = false;
@@ -94,6 +97,12 @@ namespace team16
             // Disable swiping during cooldown
             canSwipe = false;
 
+            // Disable Line Renderer
+            if (trailRenderer != null)
+            {
+                trailRenderer.enabled = false;
+            }
+
             Quaternion startRotation = catPaw.rotation;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
             float startTime = Time.time;
@@ -110,6 +119,12 @@ namespace team16
 
             // Rotate back to initial rotation
             StartCoroutine(RotateBack(initialRotation, resetDuration, speed));
+
+            // Enable Line Renderer
+            if (trailRenderer != null)
+            {
+                trailRenderer.enabled = true;
+            }
 
             // Start cooldown
             StartCoroutine(SwipeCooldown());
