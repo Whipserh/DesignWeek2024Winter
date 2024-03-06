@@ -2,34 +2,30 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-namespace team99
+namespace team16
 {
     public class CatMovement : MicrogameInputEvents
     {
         // Public variables
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
-        public float swipeDistance = 1f;
 
+        public float swipeDistance = 1f;
         public float swipeDuration = 0.5f;
         public float swipeSpeed = 5f;
-        public float swipeAngle = 45f;
+        public float swipeAngle = 60f;
 
-        public LayerMask interactableLayer;
-        public Vector2 minBounds;
-        public Vector2 maxBounds;
-        public float speed = 1.0f;
-       
-        public AnimationCurve perlinCurve;
-        public float lerpFactor = 1f;
+        public Vector3 idlePosition; // Desired idle position
+
+        public float whackValue = 10f;
+        public AudioClip[] swipeSounds; // Array of swipe sound effects
 
         // Private variables
-        private bool isHoldingObject = false;
-        private Coroutine movementCoroutine;
         private Vector2 perlinOffset;
         private bool gameStarted = false;
         private Quaternion initialRotation;
         private float resetDuration = 0.5f;
+        private bool canSwipe = true; // Indicates whether the cat can swipe
 
         // Awake is called when the script instance is being loaded
         void Awake()
@@ -43,43 +39,11 @@ namespace team99
         {
             gameStarted = true;
             initialRotation = catPaw.rotation;
-            // Start the coroutine for moving the cat with Perlin noise
-            movementCoroutine = StartCoroutine(MoveWithPerlinNoise());
         }
 
         // Called when time is up in the microgame
         protected override void OnTimesUp()
         {
-            // Reset the cat's position
-            ResetPosition();
-        }
-
-        // Coroutine to move the cat with Perlin noise
-        IEnumerator MoveWithPerlinNoise()
-        {
-            while (true)
-            {
-                // Calculate Perlin noise values for X and Y directions
-                float perlinX = Mathf.PerlinNoise(perlinOffset.x + Time.time * speed, 0);
-                float perlinY = Mathf.PerlinNoise(0, perlinOffset.y + Time.time * speed);
-
-                // Evaluate the Perlin noise values with the specified curve
-                float adjustedPerlinX = perlinCurve.Evaluate(perlinX);
-                float adjustedPerlinY = perlinCurve.Evaluate(perlinY);
-
-                // Map the adjusted Perlin noise values to the min and max bounds
-                float mappedX = Mathf.Lerp(minBounds.x, maxBounds.x, adjustedPerlinX);
-                float mappedY = Mathf.Lerp(minBounds.y, maxBounds.y, adjustedPerlinY);
-
-                // Create the target position for the cat
-                Vector3 targetPosition = new Vector3(mappedX, mappedY, transform.position.z);
-
-                // Move the cat towards the target position with lerping
-                transform.position += (targetPosition - transform.position) * lerpFactor * Time.deltaTime;
-
-                // Wait for the next frame
-                yield return null;
-            }
         }
 
         // Called every frame
@@ -87,26 +51,49 @@ namespace team99
         {
             // Get input direction from WASD keys and set cat paw velocity
             Vector2 direction = stick.normalized;
-            catPaw.velocity = direction * pawSpeed;
+            if (direction != Vector2.zero)
+            {
+                // If there's input, move the cat in the input direction
+                catPaw.velocity = direction * pawSpeed;
+            }
+            else
+            {
+                // If there's no input, move the cat to the idle position
+                Vector3 directionToIdle = idlePosition - transform.position;
+                catPaw.velocity = directionToIdle.normalized * pawSpeed;
+            }
         }
 
         // Called when button 1 is pressed
         protected override void OnButton1Pressed(InputAction.CallbackContext context)
         {
-            // Swipe left
-            StartCoroutine(Swipe(-swipeAngle, swipeDuration, swipeSpeed));
+            // Check if the cat can swipe
+            if (canSwipe)
+            {
+                // Swipe left
+                StartCoroutine(Swipe(swipeAngle, swipeDuration, swipeSpeed));
+                PlayRandomSwipeSound();
+            }
         }
 
         // Called when button 2 is pressed
         protected override void OnButton2Pressed(InputAction.CallbackContext context)
         {
-            // Swipe right
-            StartCoroutine(Swipe(swipeAngle, swipeDuration, swipeSpeed));
+            // Check if the cat can swipe
+            if (canSwipe)
+            {
+                // Swipe right
+                StartCoroutine(Swipe(-swipeAngle, swipeDuration, swipeSpeed));
+                PlayRandomSwipeSound();
+            }
         }
 
         // Coroutine for swipe motion
         IEnumerator Swipe(float angle, float duration, float speed)
         {
+            // Disable swiping during cooldown
+            canSwipe = false;
+
             Quaternion startRotation = catPaw.rotation;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
             float startTime = Time.time;
@@ -123,6 +110,9 @@ namespace team99
 
             // Rotate back to initial rotation
             StartCoroutine(RotateBack(initialRotation, resetDuration, speed));
+
+            // Start cooldown
+            StartCoroutine(SwipeCooldown());
         }
 
         // Coroutine to rotate back to the initial rotation
@@ -142,32 +132,41 @@ namespace team99
             catPaw.rotation = targetRotation;
         }
 
-        // Reset the cat's position
-        private void ResetPosition()
+        // Coroutine to control swipe cooldown
+        IEnumerator SwipeCooldown()
         {
-            if (movementCoroutine != null)
-            {
-                StopCoroutine(movementCoroutine);
-            }
-            StartCoroutine(LerpBackToCenter());
+            // Wait for cooldown duration
+            yield return new WaitForSeconds(swipeDuration);
+
+            // Enable swiping
+            canSwipe = true;
         }
 
-        // Coroutine to lerp the cat back to the center position
-        IEnumerator LerpBackToCenter()
+        // Play a random swipe sound from the array
+        private void PlayRandomSwipeSound()
         {
-            float elapsedTime = 0;
-            Vector3 startPosition = transform.position;
-            Vector3 centerPosition = new Vector3((minBounds.x + maxBounds.x) / 2f, (minBounds.y + maxBounds.y) / 2f, transform.position.z);
-
-            while (elapsedTime < 2f)
+            if (swipeSounds.Length > 0)
             {
-                transform.position = Vector3.Lerp(startPosition, centerPosition, elapsedTime / 2f);
-                elapsedTime += Time.deltaTime;
-                yield return null;
+                int randomIndex = Random.Range(0, swipeSounds.Length);
+                AudioSource.PlayClipAtPoint(swipeSounds[randomIndex], transform.position);
             }
+        }
 
-            transform.position = centerPosition;
+        // Called when the cat paw collides with another object
+        private void OnCollisionEnter(Collision collision)
+        {
+            // Check if the collision is with a valid object
+            if (collision.gameObject.CompareTag("Tag0"))
+            {
+                // Apply an impulse force to the collided object
+                Rigidbody collidedRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+                if (collidedRigidbody != null)
+                {
+                    // Add an impulse force in the direction of the cat paw's movement
+                    Vector3 forceDirection = catPaw.velocity.normalized;
+                    collidedRigidbody.AddForce(forceDirection * whackValue, ForceMode.Impulse);
+                }
+            }
         }
     }
 }
-
