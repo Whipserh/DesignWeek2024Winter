@@ -1787,6 +1787,9 @@ MonoBehaviour:
   swipeAngle: 45
   idlePosition: {x: 0, y: 0, z: 0}
   whackValue: 50
+  swipeSounds:
+  - {fileID: 8300000, guid: 12bd3041a68747e44878078470625c83, type: 3}
+  - {fileID: 8300000, guid: e67271cabbeeb5b4a8380560469383d7, type: 3}
 --- !u!114 &1883114506
 MonoBehaviour:
   m_ObjectHideFlags: 0
