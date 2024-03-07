@@ -152,8 +152,6 @@ namespace team16
                 swipeParticle.Play();
             }
 
-            //DynamicTextManager.CreateText2D(catPaw.position, "Mew", DynamicTextManager.defaultData);
-
             Quaternion startRotation = catPaw.rotation;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
             float startTime = Time.time;
