@@ -9,6 +9,6 @@ public class FlipGravity : MicrogameInputEvents
     void Start()
     {
         // Set gravity to default along the z-axis
-        Physics.gravity = new Vector3(0, 0, 9.81f);
+        //Physics.gravity = new Vector3(0, 0, 9.81f);
     }
 }

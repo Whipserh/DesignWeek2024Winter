@@ -91,10 +91,14 @@ namespace team16
                 if (outsideCameraView)
                 {
                     gameManager.TriggerChaosEnding();
-                    ReportGameCompletedEarly();
+                    if (ending)
+                    {
+                        ReportGameCompletedEarly();
+                        ending = false;
+                    }
                 }
         }
-
+        bool ending = true;
         // Called when button 1 is pressed
         protected override void OnButton1Pressed(InputAction.CallbackContext context)
         {
@@ -106,6 +110,8 @@ namespace team16
                 PlayRandomSwipeSound();
             }
         }
+
+        
 
         // Called when button 2 is pressed
         protected override void OnButton2Pressed(InputAction.CallbackContext context)
