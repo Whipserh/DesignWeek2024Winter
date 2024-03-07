@@ -6044,7 +6044,7 @@ AudioSource:
   m_GameObject: {fileID: 1720140588}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: a9fd91305b4d6574cb5369dbc30f9e93, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -6496,6 +6496,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 951168289793263301, guid: a042806075e5f0f43b76216363e0a788, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: a9fd91305b4d6574cb5369dbc30f9e93, type: 2}
     - target: {fileID: 3059902358811040389, guid: a042806075e5f0f43b76216363e0a788, type: 3}
       propertyPath: m_Name
       value: GameManager
