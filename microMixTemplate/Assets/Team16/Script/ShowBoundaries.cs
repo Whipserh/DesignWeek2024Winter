@@ -12,10 +12,5 @@ namespace team16
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.position, transform.localScale);
         }
-
-        void Update()
-        {
-            // Print transform values using Debug.Log
-        }
     }
 }

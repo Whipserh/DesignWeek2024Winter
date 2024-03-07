@@ -5573,7 +5573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 810042503723772113, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: whackValue
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 810042503723772113, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: gameManager

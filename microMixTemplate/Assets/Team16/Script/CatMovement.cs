@@ -212,9 +212,10 @@ namespace team16
             if (swipeSounds.Length > 0)
             {
                 int randomIndex = Random.Range(0, swipeSounds.Length);
-                AudioSource.PlayClipAtPoint(swipeSounds[randomIndex], transform.position);
+                soundManager.PlaySound(swipeSounds[randomIndex]);
             }
         }
+
 
         // Check if all Tag0 objects are outside camera view
         private bool AreAllTag0ObjectsOutsideCameraView()

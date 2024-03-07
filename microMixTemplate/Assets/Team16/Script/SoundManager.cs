@@ -30,6 +30,16 @@ namespace team16
             // Play the background music
             audioSource.Play();
         }
+
+        // Method to play a sound using the audio source
+        public void PlaySound(AudioClip clip)
+        {
+            if (clip != null && audioSource != null)
+            {
+                // Play the provided audio clip through the audio source
+                audioSource.PlayOneShot(clip);
+            }
+        }
     }
 }
 
