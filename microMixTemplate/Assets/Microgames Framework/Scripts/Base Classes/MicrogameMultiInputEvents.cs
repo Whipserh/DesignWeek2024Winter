@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Use for a COOP controller that processes both players' control input events.
 /// </summary>
-public abstract class MicrogameMultyInputEvents : MicrogameEvents
+public abstract class MicrogameMultiInputEvents : MicrogameEvents
 {
     public InputSource getInputFrom; // Identifies which player control set is used by this script
     protected InputAction leftButton1;
@@ -15,9 +15,19 @@ public abstract class MicrogameMultyInputEvents : MicrogameEvents
     protected InputAction rightButton2;
     private InputAction _rightStick;
 
-    protected Vector2 leftStick => _leftStick.ReadValue<Vector2>();
+    protected Vector2 leftStick { 
+        get {
+            if (_leftStick == null) return default;
+            return _leftStick.ReadValue<Vector2>();
+        }
+    }
 
-    protected Vector2 rightStick => _rightStick.ReadValue<Vector2>();
+    protected Vector2 rightStick { 
+        get {
+            if (_rightStick == null) return default;
+            return _rightStick.ReadValue<Vector2>();
+        }
+    }
 
     public void Initialize(InputSource source) {
         var controls = Controls.Instance.actionAsset;

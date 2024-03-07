@@ -8,6 +8,8 @@ namespace team16
     {
         // Public variables
         public GameManager gameManager;
+        public SoundManager soundManager;
+
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
 
@@ -213,8 +215,9 @@ namespace team16
                 if (allObjectsOutsideCameraView)
                 {
                     // Trigger chaos ending
-                    ReportGameCompletedEarly();
+                    soundManager.audioSource.Stop();
                     gameManager.TriggerChaosEnding();
+                    ReportGameCompletedEarly();
                 }
             }
         }

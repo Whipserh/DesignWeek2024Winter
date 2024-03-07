@@ -10,7 +10,7 @@ namespace team16
         public AudioClip musicClip;
 
         // Private variable for the AudioSource component
-        private AudioSource audioSource;
+        public AudioSource audioSource;
 
         // Awake is called when the script instance is being loaded
         void Awake()
@@ -22,7 +22,7 @@ namespace team16
             audioSource.clip = musicClip;
 
             // Ensure that the audio clip loops
-            audioSource.loop = true;
+            //audioSource.loop = true;
         }
 
         protected override void OnGameStart()
@@ -32,3 +32,4 @@ namespace team16
         }
     }
 }
+

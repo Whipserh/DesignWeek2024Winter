@@ -15,11 +15,9 @@ namespace team16
         private AudioSource audioSource;
         private bool gameEnded = false;
 
-        // Awake is called when the script instance is being loaded
-        void Awake()
+        private void Awake()
         {
-            // Initialize audio source
-            audioSource = GetComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>(); // Assuming the AudioSource is attached to the same GameObject as the GameManager
         }
 
         public void TriggerHappyOwnerEnding()

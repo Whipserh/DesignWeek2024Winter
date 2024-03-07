@@ -13,7 +13,12 @@ public abstract class MicrogameInputEvents : MicrogameEvents
     private InputAction _rawStick;
     public PlayerID playerID { get; private set; }
 
-    protected Vector2 stick => _rawStick.ReadValue<Vector2>();
+    protected Vector2 stick { 
+        get {
+            if (_rawStick == null) return default;
+            return _rawStick.ReadValue<Vector2>();
+        }
+    }
 
     public void Initialize(InputSource source) {
         getInputFrom = source;

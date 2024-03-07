@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System;
 using TMPro;
+using UnityEngine.Rendering.Universal;
 
 public class MicrogamesManager : MonoBehaviour
 {
@@ -41,7 +42,21 @@ public class MicrogamesManager : MonoBehaviour
         ResultsAcknowledged,
         InterstitialPlayed
     }
-    public GameState state = GameState.TitleScreen;
+    [SerializeField] GameState _state = GameState.TitleScreen;
+
+    private void SetState(GameState destination) {
+        //Debug.Log($"{_state} ---> {destination}");
+        _state = destination;
+    }
+
+    private void SetState(GameState destination, params GameState[] validPreStates) {
+        if (Array.IndexOf(validPreStates, _state) >= 0) {
+            //Debug.Log($"{_state} ---> {destination}");
+            _state = destination;
+        } else {
+            //Debug.Log($"Cannot transition from state {_state} to {destination}");
+        }
+    }
 
     // List of mini-games
     public GamesIndex gamesIndex;
@@ -130,15 +145,15 @@ public class MicrogamesManager : MonoBehaviour
                     firstBoot = false;
                 } else {
                     OpenCurtainsAnimation();
-                    yield return new WaitUntil(() => state == GameState.CurtainsOpened);
+                    yield return new WaitUntil(() => _state == GameState.CurtainsOpened);
                 }
-                state = GameState.TitleScreen;
+                SetState(GameState.TitleScreen);
                 yield return new WaitForSecondsRealtime(1);
                 EnablePlayerControls();
-                yield return new WaitUntil(() => state == GameState.PlayersReady);
+                yield return new WaitUntil(() => _state == GameState.PlayersReady);
                 DisablePlayerControls();
                 CloseCurtainsAnimation();
-                yield return new WaitUntil(() => state == GameState.CurtainsClosed);
+                yield return new WaitUntil(() => _state == GameState.CurtainsClosed);
                 titleScreen.gameObject.SetActive(false);
             }
 
@@ -182,7 +197,7 @@ public class MicrogamesManager : MonoBehaviour
                     // ...but if they don't, fast-forward to the credits.                    
                     if (_roundsIdle++ > 1 && !_quickTestSkip.HasFlag(SkipStage.Credits)) {
                         if (!_quickTestSkip.HasFlag(SkipStage.Interstitial))
-                            yield return new WaitUntil(() => state == GameState.InterstitialPlayed);
+                            yield return new WaitUntil(() => _state == GameState.InterstitialPlayed);
                         //Debug.Log("All players idle - bailing to credits.");
                         break;
                     }
@@ -252,7 +267,7 @@ public class MicrogamesManager : MonoBehaviour
 
                 if (!_quickTestSkip.HasFlag(SkipStage.Controls)) {
                     yield return controlsScreen.ShowControls(selectedGame, currentPlayers);
-                    state = GameState.ControlsRevealCompleted;
+                    SetState(GameState.ControlsRevealCompleted);
                 }
             
                 asyncLoad.allowSceneActivation = true;
@@ -269,7 +284,7 @@ public class MicrogamesManager : MonoBehaviour
                     yield return gameSelectionSpinner.FadeOut(0.5f);
                 
                 OpenCurtainsAnimation();
-                yield return new WaitUntil(() => state == GameState.CurtainsOpened);
+                yield return new WaitUntil(() => _state == GameState.CurtainsOpened);
 
                 
                 controlsScreen.HideControls();
@@ -278,33 +293,34 @@ public class MicrogamesManager : MonoBehaviour
                 if (goalAnnouncement.clip != null)
                     goalAnnouncement.PlayDelayed(0.2f);
                 
-                yield return new WaitUntil(() => state == GameState.GoalShowing);
+                yield return new WaitUntil(() => _state == GameState.GoalShowing);
 
                 StartCountdownAnimation();
-                yield return new WaitUntil(() => state == GameState.CountdownStarting);
+                yield return new WaitUntil(() => _state == GameState.CountdownStarting);
 
                 // Treat players as ready for next round only if they provide input this round.
                 leftPlayer.Unready();
                 rightPlayer.Unready();
 
-                state = GameState.MiniGameInProgress;
+                SetState(GameState.MiniGameInProgress);
                 EnablePlayerControls();
                 GameStartEvent?.Invoke();
 
                 // Wait until countdown is complete or mini-game is completed
-                yield return new WaitUntil(() => state == GameState.CountdownCompleted || state == GameState.MiniGameCompleted || state == GameState.MiniGameCompletedEarly);
+                yield return new WaitUntil(() => _state == GameState.CountdownCompleted || _state == GameState.MiniGameCompleted || _state == GameState.MiniGameCompletedEarly);
 
                 DisablePlayerControls();
 
-                if (state == GameState.CountdownCompleted || state == GameState.MiniGameCompletedEarly) {
+                if (_state == GameState.CountdownCompleted || _state == GameState.MiniGameCompletedEarly) {
 
                     yield return new WaitForSecondsRealtime(5);
-                    state = GameState.MiniGameCompleted;
+                    SetState(GameState.MiniGameCompleted);
                 }
 
                 CloseCurtainsAnimation();
 
-                yield return new WaitUntil(() => state == GameState.CurtainsClosed);
+                Debug.Log("Closing curtains");
+                yield return new WaitUntil(() => _state == GameState.CurtainsClosed);
 
                 SceneManager.UnloadSceneAsync(gameScene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 
@@ -326,11 +342,14 @@ public class MicrogamesManager : MonoBehaviour
                     
                     PlayInterstitialAnimation();
                     if (roundNumber + 1 >= roundCount) // Only wait for full fade after last game.
-                        yield return new WaitUntil(() => state == GameState.InterstitialPlayed);
+                        yield return new WaitUntil(() => _state == GameState.InterstitialPlayed);
                 }
 
                 RestoreGlobalState();
             }
+
+            _joinPromptLeft.text = string.Empty;
+            _joinPromptRight.text = string.Empty;
 
             EnablePlayerControls();
             if (!_quickTestSkip.HasFlag(SkipStage.Credits)) {
@@ -339,7 +358,7 @@ public class MicrogamesManager : MonoBehaviour
                 yield return creditsScreen.StartScroll();
                 CloseCurtainsAnimation();
 
-                yield return new WaitUntil(() => state == GameState.CurtainsClosed);
+                yield return new WaitUntil(() => _state == GameState.CurtainsClosed);
                 creditsScreen.Clear();
             }
 
@@ -362,13 +381,23 @@ public class MicrogamesManager : MonoBehaviour
             return;
         } else {
             _quickTestModeScene = currentScene.path;
+            if (string.IsNullOrEmpty(_quickTestModeScene)) {
+                Debug.LogWarning("Save this scene before you can use it with the Microgame Framework.");
+                return;
+            }
         }
 
         // Check for game objects with components inheriting from MicrogameEvents or MicrogameInputEvents
-        MicrogameEvents[] microgameEventsComponents = FindObjectsOfType<MicrogameEvents>(true);
+        var microgameEventsComponent = FindAnyObjectByType<MicrogameEvents>(FindObjectsInactive.Include);
 
         // If no such components are found, load the microMix scene
-        if (microgameEventsComponents.Length > 0) { // || microgameInputEventsComponents.Length > 0) {
+        if (microgameEventsComponent != null) { // || microgameInputEventsComponents.Length > 0) {
+            var frameworkScene = UnityEditor.AssetDatabase.LoadMainAssetAtPath(FrameworkScenePath);
+            if (frameworkScene == null) {
+                Debug.LogError($"Could not find framework scene at {FrameworkScenePath} - make sure you did not delete, move, or rename it!");
+                // Abort so error is addressed right away.
+                UnityEditor.EditorApplication.ExitPlaymode();
+            }
             SceneManager.LoadScene(FrameworkScenePath);
         } else {
             Debug.Log("Skipped loading microMix because no existing game objects with MicrogameEvents or MicrogameInputEvents components.");
@@ -425,9 +454,9 @@ public class MicrogamesManager : MonoBehaviour
 
     // Fast-forward a game.
     void Abort(InputAction.CallbackContext context) {
-        Debug.Log($"Attempting to abort from state {state}");
-        if (state == GameState.MiniGameInProgress)
+        if (_state == GameState.MiniGameInProgress) {
             OnGameCompletedEarly();
+        }
     }
     private void EnterTestMode() {
         #if UNITY_EDITOR
@@ -470,7 +499,7 @@ public class MicrogamesManager : MonoBehaviour
 
     private void OnLeftPlayerActivity(InputAction.CallbackContext context) {
         leftPlayer.Ready();
-        if (state == GameState.TitleScreen) {
+        if (_state == GameState.TitleScreen) {
             leftPlayerReadyText.enabled = true;
             OnLeftPlayerStartEvent?.Invoke();            
             StartCountdownIfNeeded();
@@ -479,7 +508,7 @@ public class MicrogamesManager : MonoBehaviour
 
     private void OnRightPlayerActivity(InputAction.CallbackContext context) {
         rightPlayer.Ready();
-        if (state == GameState.TitleScreen) {
+        if (_state == GameState.TitleScreen) {
             rightPlayerReadyText.enabled = true;
             OnRightPlayerStartEvent?.Invoke();            
             StartCountdownIfNeeded();
@@ -506,7 +535,7 @@ public class MicrogamesManager : MonoBehaviour
             timer -= Time.deltaTime;
             yield return null; // Wait for the next frame
         }
-        state = GameState.PlayersReady; // Change state when countdown is over or both are ready
+        SetState(GameState.PlayersReady); // Change state when countdown is over or both are ready
         playersReadyCountdownStarted = false;
     }
 
@@ -548,38 +577,38 @@ public class MicrogamesManager : MonoBehaviour
     }
 
     public void OnGameCompletedEarly() {
-        state = GameState.MiniGameCompletedEarly;
+        SetState(GameState.MiniGameCompletedEarly, GameState.MiniGameInProgress);
         StopCountdownAnimation();
     }
 
 
     // Animation event methods
     public void OnCurtainsOpened() {
-        state = GameState.CurtainsOpened;
+        SetState(GameState.CurtainsOpened);
     }
 
     public void OnCurtainsClosed() {
-        state = GameState.CurtainsClosed;
+        SetState(GameState.CurtainsClosed);
     }
 
     public void OnGoalShown() {
-        state = GameState.GoalShowing;
+        SetState(GameState.GoalShowing);
     }
 
     public void OnTimerReady() {
-        state = GameState.CountdownStarting;
+        SetState(GameState.CountdownStarting);
     }
 
     public void OnMiniGameCompleted() {
-        state = GameState.MiniGameCompleted;
+        SetState(GameState.MiniGameCompleted);
     }
 
     public void OnControlsSequenceFinished() {
-        state = GameState.ControlsRevealCompleted;
+        SetState(GameState.ControlsRevealCompleted);
     }
 
     public void OnInterstitialFinished() {
-        state = GameState.InterstitialPlayed;
+        SetState(GameState.InterstitialPlayed);
     }
 
     public void OnFifteenSecondsLeft() {
@@ -595,14 +624,14 @@ public class MicrogamesManager : MonoBehaviour
     }
 
     public void OnCountdownComplete() {
-        state = GameState.CountdownCompleted;
+        SetState(GameState.CountdownCompleted);
         TimesUpEvent?.Invoke();
         StartCoroutine(DelayBeforeMiniGameCompleted());
     }
 
     private IEnumerator DelayBeforeMiniGameCompleted() {
         yield return new WaitForSecondsRealtime(3);
-        state = GameState.MiniGameCompleted;
+        SetState(GameState.MiniGameCompleted);
     }
 
     // Animation triggers
@@ -642,6 +671,8 @@ public class MicrogamesManager : MonoBehaviour
         interstitialTextAnimator.SetTrigger("Play");
     }
 
+    [SerializeField] UniversalRenderPipelineAsset _renderPipeline;
+
     void RestoreGlobalState() {
         // TODO: Check for any shenanigans students pull in global settings
         // and put it all back after we unload their scene.
@@ -655,5 +686,9 @@ public class MicrogamesManager : MonoBehaviour
         Physics.queriesHitTriggers = true;
 
         Physics2D.gravity = new Vector2(0, -9.81f);
+
+        // Reset global render settings.
+        _renderPipeline.shadowCascadeCount = 4;
+        _renderPipeline.msaaSampleCount = 4;
     }
 }

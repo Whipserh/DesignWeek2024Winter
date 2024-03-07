@@ -10,27 +10,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7.3463
+      value: 22.930006
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7.3463
+      value: 22.930006
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7.3463
+      value: 22.930008
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.26
+      value: 21.69373
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.0243273
+      value: -0.008249521
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.630701
+      value: 0.14750051
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -60,9 +60,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.336
       objectReference: {fileID: 0}
+    - target: {fileID: -8258836068372903779, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
       propertyPath: m_Name
       value: plantSmall2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3a8ab482ba42289488329b72513614f9, type: 3}
+      propertyPath: m_TagString
+      value: Tag0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -102,7 +114,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

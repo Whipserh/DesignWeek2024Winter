@@ -10,27 +10,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5.2073
+      value: 22.874214
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5.2073
+      value: 22.874212
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5.2073
+      value: 22.874214
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.913
+      value: 11.143729
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.3
+      value: -1.6782495
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.125
+      value: 0.14750051
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -60,9 +60,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -104.85901
       objectReference: {fileID: 0}
+    - target: {fileID: -1329135409744636692, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
       propertyPath: m_Name
       value: kitchenCoffeeMachine
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
+      propertyPath: m_TagString
+      value: Tag0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191532978775866942, guid: 7a65d3d7536e33440a4fbc0006afe35f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -102,7 +118,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

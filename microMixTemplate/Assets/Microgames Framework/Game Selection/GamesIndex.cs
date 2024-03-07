@@ -42,7 +42,7 @@ public class GamesIndex : ScriptableObject
     }
     #endif
 
-    [Header("microMix Framework v. 1.3")]
+    [Header("microMix Framework v. 1.7")]
 
     [Header("Testing Settings")]
     public MicrogamesManager.SkipStage quickTestSkip;
@@ -61,19 +61,28 @@ public class GamesIndex : ScriptableObject
 
     public GameInfo SelectGame(int playerCount, GameInfo[] dummies = null) {
         if (_spDeck == null) {
-            int noRepeatWindow = Mathf.Min(_singlePlayer.Length - 1, _twoPlayer.Length - 1, _avoidRepeatsWithin);
+            int noRepeatWindow = Mathf.Min(Mathf.Max(0, _singlePlayer.Length - 1, _twoPlayer.Length - 1), _avoidRepeatsWithin);
             _recentGames = new GameInfo[noRepeatWindow];
-            _spDeck = new ShuffleBag<GameInfo>(_singlePlayer);
-            _mpDeck = new ShuffleBag<GameInfo>(_twoPlayer);
+            _spDeck = new ShuffleBag<GameInfo>(_singlePlayer.Length > 0 ? _singlePlayer : _twoPlayer);
+            _mpDeck = new ShuffleBag<GameInfo>(_twoPlayer.Length > 0 ? _twoPlayer : _singlePlayer);
+            if (_spDeck.Count == 0) {
+                Debug.LogError("No games found - make sure to Refresh Local Games on the Assets/GameIndex asset");
+                #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.ExitPlaymode();
+                #endif
+            }
         }
 
         GameInfo selected;
         var deck = (playerCount == 1) ? _spDeck : _mpDeck;
+
+        bool useAntiRepeat = _recentGames.Length > 0 && _recentGames.Length < deck.Count;
+
         do {
             selected = deck.Draw();
-        } while (System.Array.IndexOf(_recentGames, selected) >= 0);
+        } while (useAntiRepeat && (System.Array.IndexOf(_recentGames, selected) >= 0));
 
-        if (_recentGames.Length > 0) {
+        if (useAntiRepeat) {
             _recentGames[_oldestIndex] = selected;
             _oldestIndex = (_oldestIndex + 1) % _recentGames.Length;
         }

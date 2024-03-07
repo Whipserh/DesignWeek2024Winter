@@ -10,27 +10,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.4648
+      value: 22.273483
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4.4648
+      value: 22.27348
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 4.4648
+      value: 22.27348
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.22
+      value: 12.803729
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.96
+      value: 3.1617503
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.22
+      value: 0.14750051
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -60,9 +60,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3425277626805791452, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
       propertyPath: m_Name
       value: laptop
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 164f744cfe9499f4aaa32dfdbe5f0b5e, type: 3}
+      propertyPath: m_TagString
+      value: Tag0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -102,7 +114,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -127,4 +139,4 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.3, z: 0.2}
-  m_Center: {x: 0.13, y: 0.2, z: 0.1}
+  m_Center: {x: 0.13, y: 0.1, z: 0.1}

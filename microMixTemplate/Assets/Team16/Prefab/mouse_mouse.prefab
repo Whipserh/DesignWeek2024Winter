@@ -9,16 +9,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 249.13701
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 109.37189
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 109.37187
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.43
+      value: 19.323729
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.86
+      value: 1.7417507
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.282
+      value: 0.14750051
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -51,6 +63,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
       propertyPath: m_Name
       value: mouse_mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0c4f06801105b141ac8c68cb5a8df5d, type: 3}
+      propertyPath: m_TagString
+      value: Tag0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -111,7 +131,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

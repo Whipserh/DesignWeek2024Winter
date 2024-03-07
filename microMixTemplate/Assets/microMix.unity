@@ -4326,6 +4326,7 @@ MonoBehaviour:
   creditsScreen: {fileID: 857418381}
   _joinPromptLeft: {fileID: 75537205}
   _joinPromptRight: {fileID: 1239848907}
+  _renderPipeline: {fileID: 11400000, guid: 9715791bc57751b4eb9069d84755c703, type: 2}
 --- !u!114 &1366265817
 MonoBehaviour:
   m_ObjectHideFlags: 0
