@@ -226,7 +226,7 @@ public class MicrogamesManager : MonoBehaviour
                             gameSelectionSpinner.Populate(i, dummies[i].gameIcon, dummies[i].gameTitle);
                         }
                         gameSelectionSpinner.Populate(dummies.Length, selectedGame.gameIcon, selectedGame.gameTitle);
-                        gameSelectionSpinner.spinTicks = UnityEngine.Random.Range(10, 14);
+                        gameSelectionSpinner.spinTicks = UnityEngine.Random.Range(10, 12);
                         var spinInProgress = gameSelectionSpinner.Spin(dummies.Length, true); 
 
                         bool upgradedTo2P = false;
@@ -365,6 +365,11 @@ public class MicrogamesManager : MonoBehaviour
             // If any games are using PlayerPrefs for persisting a high score/etc.
             // ensure it's not lost if we crash/lose power without a graceful exit.
             PlayerPrefs.Save();
+
+            // Clean up excess assets loaded and lingering from the last round of games.
+            goalAnnouncement.clip = null;
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
         }
     }
 
@@ -563,15 +568,15 @@ public class MicrogamesManager : MonoBehaviour
     // Load the GameInfo ScriptableObject
     void LoadGameInfo(GameInfo gameInfo) {
         _gamesPlayed.Add(gameInfo);
-        string prompt = gameInfo.prompt;
+        string prompt = gameInfo.announcerText;
         goalUIText.text = prompt;
 
-        var clip = Resources.Load<AudioClip>(prompt);
+        var clip = Resources.Load<AudioClip>(gameInfo.announcerAudioFile);
         if (clip != null) {
             clip.LoadAudioData();
             goalAnnouncement.clip = clip;
         } else {
-            Debug.LogWarning($"No voice sample found for game goal/prompt '{prompt}'");
+            Debug.LogWarning($"No voice sample found for game goal/prompt '{prompt}' / file 'Resources/{gameInfo.announcerAudioFile}.wav'");
             goalAnnouncement.clip = null;
         }
     }

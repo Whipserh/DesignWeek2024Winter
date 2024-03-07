@@ -8,11 +8,16 @@ public class GamesIndex : ScriptableObject
 {
     #if UNITY_EDITOR
     [Tooltip("Rooted path to folder containing team projects. Use OS directory separator.")]
-    [field:SerializeField, HideInInspector] public string sourcePath {get; private set;}
+    [HideInInspector] string _sourcePath;
 
     [Tooltip("Path relative to Assets/ to copy data into. Contents of this folder will be erased. Use forward slashes to separate sub-folders.")]
-    [field:SerializeField, HideInInspector, Delayed] public string destinationPath {get; private set;}
+    [Delayed, HideInInspector] string _destinationPath = "Imported";
 
+    public string SourcePath => _sourcePath;
+    public string DestinationPath => _destinationPath;
+
+    [HideInInspector] public bool enableImport;
+    
     public void ReplaceGames(List<GameInfo> infos) {
         if (infos == null || infos.Count == 0) {
             _singlePlayer  = null;
@@ -32,17 +37,17 @@ public class GamesIndex : ScriptableObject
     }
 
     void OnValidate() {
-        destinationPath = destinationPath.Replace('\\', '/');
-        if (destinationPath.StartsWith("assets/", System.StringComparison.OrdinalIgnoreCase)) {
-            destinationPath = destinationPath.Substring(6);
-        } else if (destinationPath.StartsWith('/')) {
-            destinationPath = destinationPath.Substring(1);
+        _destinationPath = DestinationPath.Replace('\\', '/');
+        if (DestinationPath.StartsWith("assets/", System.StringComparison.OrdinalIgnoreCase)) {
+            _destinationPath = DestinationPath.Substring(6);
+        } else if (DestinationPath.StartsWith('/')) {
+            _destinationPath = DestinationPath.Substring(1);
         }
-        if (destinationPath.EndsWith('/')) destinationPath = destinationPath[..^1];
+        if (DestinationPath.EndsWith('/')) _destinationPath = DestinationPath[..^1];
     }
     #endif
 
-    [Header("microMix Framework v. 1.7")]
+    [Header("microMix Framework v. 1.8")]
 
     [Header("Testing Settings")]
     public MicrogamesManager.SkipStage quickTestSkip;
