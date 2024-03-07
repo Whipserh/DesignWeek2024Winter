@@ -6,22 +6,36 @@ namespace team16
 {
     public class CatMovement : MicrogameInputEvents
     {
-        // Public variables
         public GameManager gameManager;
         public SoundManager soundManager;
 
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
+
         public float swipeDistance = 1f;
         public float swipeDuration = 0.5f;
         public float swipeSpeed = 5f;
         public float swipeAngle = 60f;
+
         public Vector3 idlePosition; // Desired idle position
+
+        public float whackValue = 10f;
+
         public AudioClip[] swipeSounds; // Array of swipe sound effects
+
+        // Reference to the trail Renderer
+        public TrailRenderer trailRenderer;
+
+        // Reference to the Particle System
+        public ParticleSystem swipeParticle;
 
         // Private variables
         private bool hasMadeContactWithTag0 = false;
         private bool isTimeUp = false;
+
+        private Quaternion initialRotation;
+        private float resetDuration = 0.5f;
+
         private bool canSwipe = true;
 
         // Called when the microgame starts
@@ -30,6 +44,8 @@ namespace team16
             // Initialize variables
             hasMadeContactWithTag0 = false;
             isTimeUp = false;
+
+            initialRotation = catPaw.rotation;
         }
 
         // Called when time is up in the microgame
@@ -41,12 +57,7 @@ namespace team16
 
             if (hasMadeContactWithTag0)
             {
-                if (outsideCameraView)
-                {
-                    gameManager.TriggerChaosEnding();
-                    ReportGameCompletedEarly();
-                }
-                else
+                if (!outsideCameraView)
                 {
                     gameManager.TriggerIWillBeBackEnding();
                 }
@@ -73,6 +84,15 @@ namespace team16
                 Vector3 directionToIdle = idlePosition - transform.position;
                 catPaw.velocity = directionToIdle.normalized * pawSpeed;
             }
+
+            bool outsideCameraView = AreAllTag0ObjectsOutsideCameraView();
+
+            if (hasMadeContactWithTag0)
+                if (outsideCameraView)
+                {
+                    gameManager.TriggerChaosEnding();
+                    ReportGameCompletedEarly();
+                }
         }
 
         // Called when button 1 is pressed
@@ -105,6 +125,19 @@ namespace team16
             // Disable swiping during cooldown
             canSwipe = false;
 
+            // Disable Trail Renderer
+            if (trailRenderer != null)
+            {
+                trailRenderer.enabled = false;
+            }
+
+            // Instantiate Particle System
+            if (swipeParticle != null)
+            {
+                //ParticleSystem particleInstance = Instantiate(swipeParticle, catPaw.position, Quaternion.identity);
+                swipeParticle.Play();
+            }
+
             Quaternion startRotation = catPaw.rotation;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
             float startTime = Time.time;
@@ -112,6 +145,7 @@ namespace team16
             while (Time.time < startTime + duration)
             {
                 float t = (Time.time - startTime) / duration;
+                float step = speed * Time.deltaTime;
                 catPaw.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
                 yield return null;
             }
@@ -119,27 +153,43 @@ namespace team16
             catPaw.rotation = targetRotation;
 
             // Rotate back to initial rotation
-            StartCoroutine(RotateBack(startRotation, swipeDuration, speed));
+            StartCoroutine(RotateBack(initialRotation, resetDuration, speed));
 
-            // Enable swiping
-            yield return new WaitForSeconds(swipeDuration);
-            canSwipe = true;
+            // Enable Trail Renderer
+            if (trailRenderer != null)
+            {
+                trailRenderer.enabled = true;
+            }
+
+            // Start cooldown
+            StartCoroutine(SwipeCooldown());
         }
 
         // Coroutine to rotate back to the initial rotation
-        IEnumerator RotateBack(Quaternion startRotation, float duration, float speed)
+        IEnumerator RotateBack(Quaternion targetRotation, float duration, float speed)
         {
-            Quaternion targetRotation = Quaternion.identity;
+            Quaternion startRotation = catPaw.rotation;
             float startTime = Time.time;
 
             while (Time.time < startTime + duration)
             {
                 float t = (Time.time - startTime) / duration;
+                float step = speed * Time.deltaTime;
                 catPaw.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
                 yield return null;
             }
 
             catPaw.rotation = targetRotation;
+        }
+
+        // Coroutine to control swipe cooldown
+        IEnumerator SwipeCooldown()
+        {
+            // Wait for cooldown duration
+            yield return new WaitForSeconds(swipeDuration);
+
+            // Enable swiping
+            canSwipe = true;
         }
 
         // Play a random swipe sound from the array
