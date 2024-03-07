@@ -6500,6 +6500,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5355888939176460448, guid: a042806075e5f0f43b76216363e0a788, type: 3}
+      propertyPath: badEnding
+      value: 
+      objectReference: {fileID: 8300000, guid: f3fe139bc29833143a00829379399438, type: 3}
     - target: {fileID: 8591897319296665808, guid: a042806075e5f0f43b76216363e0a788, type: 3}
       propertyPath: _mainCamera
       value: 

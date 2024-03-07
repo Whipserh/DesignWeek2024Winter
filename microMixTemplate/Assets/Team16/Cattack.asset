@@ -13,18 +13,54 @@ MonoBehaviour:
   m_Name: Cattack
   m_EditorClassIdentifier: 
   includeInRandomizer: 1
-  teamNumber: 0
+  teamNumber: 16
   gameTitle: Feline Frenzy
-  gameIcon: {fileID: 0}
-  prompt: Cause Chaos
+  gameIcon: {fileID: 21300000, guid: de09d4f4cdad5364fb24b8ac12ce2c52, type: 3}
+  announcerText: Cause Chaos
+  announcerAudioFile: Cause Chaos-RX10MDc_49-01
+  _announcerAudio: {fileID: 8300000, guid: 4b39d9ff1a048f940bde0d4f73849fc0, type: 3}
   singlePlayerScene: {fileID: 102900000, guid: 5901702471ac3164fa8c2b83b2edcf33, type: 3}
   twoPlayerScene: {fileID: 102900000, guid: 49bae926d0eabe8438c04d192ff4cadf, type: 3}
-  controls: []
+  controls:
+  - label: Paw Movement
+    primary: 124
+    joiner: 0
+    secondary: 0
+  - label: Swipe Left
+    primary: 1
+    joiner: 0
+    secondary: 0
+  - label: Swipe Right
+    primary: 2
+    joiner: 0
+    secondary: 0
   rightPlayerAltControls: []
   singlePlayerScenePath: Assets/Team16/Scene/CattackP1.unity
   twoPlayerScenePath: Assets/Team16/Scene/CattackP2.unity
   postgameMessages:
-  - Shiver Me Whiskers
+  - Never furget where you started
+  - Anything is pawsible
+  - ou weren't kitten around
+  - They will start with your nose
   bannerImage: {fileID: 0}
-  developerCredits: []
-  licensedWorksCredits: []
+  developerCredits:
+  - Aditya Vashishtha
+  - Alex Carrasco
+  - Christopher Anderson-Lundy
+  - Claudia Rando
+  - Jack Caunter
+  - Ricki Miles
+  - Rogan Micallef
+  - Ryan McBride
+  - Zachary Richardson
+  licensedWorksCredits:
+  - titleOfWork: Jazz Comedy
+    creator: Royalty Free Music
+    source: 
+    url: https://www.bensound.com/royalty-free-music/track/jazz-comedy
+    licence: 'License code: SAWYTJFCM9NVQJNM'
+  - titleOfWork: Furniture Kit
+    creator: Kenney
+    source: 
+    url: https://kenney.nl/assets/furniture-kit
+    licence: Creative Commons CC0
