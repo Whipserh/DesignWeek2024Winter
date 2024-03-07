@@ -1,22 +1,21 @@
 using UnityEngine;
-
-public class ShowBoundaries : MicrogameInputEvents
+namespace team16
 {
-    // Define the boundaries of the game area
-    public Bounds boundaries;
-
-    void OnDrawGizmosSelected()
+    public class ShowBoundaries : MicrogameInputEvents
     {
-        // Draw boundaries using Gizmos
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position, transform.localScale);
-    }
+        // Define the boundaries of the game area
+        public Bounds boundaries;
 
-    void Update()
-    {
-        // Print transform values using Debug.Log
-        Debug.Log("Position: " + transform.position);
-        Debug.Log("Rotation: " + transform.rotation.eulerAngles);
-        Debug.Log("Scale: " + transform.localScale);
+        void OnDrawGizmosSelected()
+        {
+            // Draw boundaries using Gizmos
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
+        }
+
+        void Update()
+        {
+            // Print transform values using Debug.Log
+        }
     }
 }

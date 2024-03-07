@@ -3,36 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Trigger : MicrogameEvents
+namespace team16
 {
-    public GameObject[] environment;
-    public List<GameObject> endGame;
-
-    // Start is called before the first frame update
-    public void Start()
+    public class Trigger : MicrogameEvents
     {
-        environment=GameObject.FindGameObjectsWithTag("Tag0");
+        public GameObject[] environment;
+        public List<GameObject> endGame;
 
-        endGame = environment.ToList<GameObject>();
-        
-    }
+        // Start is called before the first frame update
+        public void Start()
+        {
+            environment = GameObject.FindGameObjectsWithTag("Tag0");
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+            endGame = environment.ToList<GameObject>();
 
-    private void OnTriggerExit(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
-        endGame.Remove(other.gameObject);
-        
-    }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Debug.Log(other.gameObject.name);
+            endGame.Remove(other.gameObject);
+
+        }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.gameObject.name);
+        }
     }
 }
