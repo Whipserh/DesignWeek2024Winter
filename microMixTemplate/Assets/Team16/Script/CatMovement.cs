@@ -134,8 +134,8 @@ namespace team16
             // Instantiate Particle System
             if (swipeParticle != null)
             {
-                ParticleSystem particleInstance = Instantiate(swipeParticle, catPaw.position, Quaternion.identity);
-                particleInstance.Play();
+                //ParticleSystem particleInstance = Instantiate(swipeParticle, catPaw.position, Quaternion.identity);
+                swipeParticle.Play();
             }
 
             Quaternion startRotation = catPaw.rotation;
