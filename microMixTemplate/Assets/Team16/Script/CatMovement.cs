@@ -12,63 +12,43 @@ namespace team16
 
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
-
         public float swipeDistance = 1f;
         public float swipeDuration = 0.5f;
         public float swipeSpeed = 5f;
         public float swipeAngle = 60f;
-
         public Vector3 idlePosition; // Desired idle position
-
-        public float whackValue = 10f;
         public AudioClip[] swipeSounds; // Array of swipe sound effects
 
-        // Reference to the trail Renderer
-        public TrailRenderer trailRenderer;
-
-        // Reference to the Particle System
-        public ParticleSystem swipeParticle;
-
         // Private variables
-        private Vector2 perlinOffset;
-        private bool gameStarted = false;
-        private Quaternion initialRotation;
-        private float resetDuration = 0.5f;
-        private bool canSwipe = true; // Indicates whether the cat can swipe
-
-        // Awake is called when the script instance is being loaded
-        void Awake()
-        {
-            // Initialize the Perlin noise offset
-            perlinOffset = new Vector2(Random.value * 1000, Random.value * 1000);
-        }
+        private bool hasMadeContactWithTag0 = false;
+        private bool isTimeUp = false;
+        private bool canSwipe = true;
 
         // Called when the microgame starts
         protected override void OnGameStart()
         {
-            gameStarted = true;
-            initialRotation = catPaw.rotation;
+            // Initialize variables
+            hasMadeContactWithTag0 = false;
+            isTimeUp = false;
         }
 
         // Called when time is up in the microgame
         protected override void OnTimesUp()
         {
-            bool madeContact = CheckContactWithObjects();
-            bool outsideBoundaries = CheckObjectsOutsideBoundaries();
+            isTimeUp = true;
 
-            Debug.Log("Contact with objects: " + madeContact);
-            Debug.Log("Objects outside boundaries: " + outsideBoundaries);
+            bool outsideCameraView = AreAllTag0ObjectsOutsideCameraView();
 
-            // Trigger appropriate ending based on contact and boundaries
-            if (madeContact)
+            if (hasMadeContactWithTag0)
             {
-                if (!outsideBoundaries)
+                if (outsideCameraView)
                 {
-                    gameManager.TriggerIWillBeBackEnding();
+                    gameManager.TriggerChaosEnding();
+                    ReportGameCompletedEarly();
                 }
                 else
                 {
-                    gameManager.TriggerChaosEnding();
+                    gameManager.TriggerIWillBeBackEnding();
                 }
             }
             else
@@ -125,19 +105,6 @@ namespace team16
             // Disable swiping during cooldown
             canSwipe = false;
 
-            // Disable Trail Renderer
-            if (trailRenderer != null)
-            {
-                trailRenderer.enabled = false;
-            }
-
-            // Instantiate Particle System
-            if (swipeParticle != null)
-            {
-                //ParticleSystem particleInstance = Instantiate(swipeParticle, catPaw.position, Quaternion.identity);
-                swipeParticle.Play();
-            }
-
             Quaternion startRotation = catPaw.rotation;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
             float startTime = Time.time;
@@ -145,7 +112,6 @@ namespace team16
             while (Time.time < startTime + duration)
             {
                 float t = (Time.time - startTime) / duration;
-                float step = speed * Time.deltaTime;
                 catPaw.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
                 yield return null;
             }
@@ -153,43 +119,27 @@ namespace team16
             catPaw.rotation = targetRotation;
 
             // Rotate back to initial rotation
-            StartCoroutine(RotateBack(initialRotation, resetDuration, speed));
+            StartCoroutine(RotateBack(startRotation, swipeDuration, speed));
 
-            // Enable Trail Renderer
-            if (trailRenderer != null)
-            {
-                trailRenderer.enabled = true;
-            }
-
-            // Start cooldown
-            StartCoroutine(SwipeCooldown());
+            // Enable swiping
+            yield return new WaitForSeconds(swipeDuration);
+            canSwipe = true;
         }
 
         // Coroutine to rotate back to the initial rotation
-        IEnumerator RotateBack(Quaternion targetRotation, float duration, float speed)
+        IEnumerator RotateBack(Quaternion startRotation, float duration, float speed)
         {
-            Quaternion startRotation = catPaw.rotation;
+            Quaternion targetRotation = Quaternion.identity;
             float startTime = Time.time;
 
             while (Time.time < startTime + duration)
             {
                 float t = (Time.time - startTime) / duration;
-                float step = speed * Time.deltaTime;
                 catPaw.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
                 yield return null;
             }
 
             catPaw.rotation = targetRotation;
-        }
-
-        // Coroutine to control swipe cooldown
-        IEnumerator SwipeCooldown()
-        {
-            // Wait for cooldown duration
-            yield return new WaitForSeconds(swipeDuration);
-
-            // Enable swiping
-            canSwipe = true;
         }
 
         // Play a random swipe sound from the array
@@ -202,37 +152,31 @@ namespace team16
             }
         }
 
-        // Check if the cat paw collides with any object
-        // Check if the cat paw collides with any object tagged as "Tag0"
-        private bool CheckContactWithObjects()
+        // Check if all Tag0 objects are outside camera view
+        private bool AreAllTag0ObjectsOutsideCameraView()
         {
-            Collider[] colliders = Physics.OverlapSphere(catPaw.position, swipeDistance);
-            foreach (var collider in colliders)
+            GameObject[] objectsWithTag0 = GameObject.FindGameObjectsWithTag("Tag0");
+            Camera mainCamera = Camera.main;
+
+            foreach (var obj in objectsWithTag0)
             {
-                if (collider.CompareTag("Tag0"))
+                Vector3 viewportPoint = mainCamera.WorldToViewportPoint(obj.transform.position);
+                if (viewportPoint.z > 0 && viewportPoint.x > 0 && viewportPoint.x < 1 && viewportPoint.y > 0 && viewportPoint.y < 1)
                 {
-                    Debug.Log("Contact with object tagged as 'Tag0' detected.");
-                    return true;
+                    return false; // Object is inside camera view
                 }
             }
-            Debug.Log("No contact with objects tagged as 'Tag0'.");
-            return false;
+
+            return true; // All objects are outside camera view
         }
 
-
-        // Check if all Tag0 objects are outside boundary constraints
-        private bool CheckObjectsOutsideBoundaries()
+        // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider
+        private void OnCollisionEnter(Collision collision)
         {
-            GameObject boundary = GameObject.FindGameObjectWithTag("Tag10");
-            if (boundary != null)
+            if (collision.gameObject.CompareTag("Tag0"))
             {
-                bool isOutsideBoundaries = !boundary.GetComponent<BoundaryConstraint>().IsWithinBoundaries(catPaw.position);
-                Debug.Log("Objects outside boundaries: " + isOutsideBoundaries);
-                return isOutsideBoundaries;
+                hasMadeContactWithTag0 = true;
             }
-            Debug.Log("No boundary object found.");
-            return false;
         }
-
     }
 }
