@@ -6054,7 +6054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultData: {fileID: 11400000, guid: 4ba5d5a1e1f3c5340a811d557dbbdae4, type: 2}
   _canvasPrefab: {fileID: 1926280506753864649, guid: e124e19729a322b4281287dcc0eb622b, type: 3}
-  _mainCamera: {fileID: 0}
+  _mainCamera: {fileID: 2086102468}
 --- !u!1001 &1713762845
 PrefabInstance:
   m_ObjectHideFlags: 0

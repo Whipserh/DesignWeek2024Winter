@@ -17,14 +17,14 @@ MonoBehaviour:
   - {r: 0.8867924, g: 0.13720179, b: 0.13720179, a: 0}
   - {r: 0.8301887, g: 0.48899463, b: 0.1441082, a: 0}
   sizes:
-  - 1
-  - 2
+  - 100
+  - 122
   font: {fileID: 11400000, guid: 5a341c8fc5c13c942b0b89018110714c, type: 2}
   bold: 0
   italic: 0
   underline: 0
   strikethrough: 0
-  lifetime: 0.5
+  lifetime: 5
   numberOfColourAlternations: 1
   numberOfSizeAlternations: 0
   colourAlternationDuration: 0
