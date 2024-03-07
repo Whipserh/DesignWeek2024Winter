@@ -14,6 +14,19 @@ public class BoundaryConstraint : MicrogameInputEvents
         CalculateBoundary();
     }
 
+    // Check if a position is within the boundaries
+    // Check if a position is within the boundaries defined by the scale of the GameObject
+    public bool IsWithinBoundaries(Vector3 position)
+    {
+        // Get the scale of the GameObject
+        Vector3 scale = transform.localScale;
+
+        // Check if the position is within the boundaries defined by the scale
+        return Mathf.Abs(position.x) <= scale.x / 2f &&
+               Mathf.Abs(position.y) <= scale.y / 2f &&
+               Mathf.Abs(position.z) <= scale.z / 2f;
+    }
+
     void LateUpdate()
     {
         // Ensure that the target stays within the boundary

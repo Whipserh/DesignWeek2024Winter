@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ShowBoundaries : MicrogameInputEvents
 {
+    // Define the boundaries of the game area
+    public Bounds boundaries;
+
     void OnDrawGizmosSelected()
     {
         // Draw boundaries using Gizmos

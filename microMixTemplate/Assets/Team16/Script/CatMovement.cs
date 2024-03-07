@@ -53,8 +53,25 @@ namespace team16
         // Called when time is up in the microgame
         protected override void OnTimesUp()
         {
-            // Trigger happy owner ending if time is up and no action was taken
-            if (canSwipe)
+            bool madeContact = CheckContactWithObjects();
+            bool outsideBoundaries = CheckObjectsOutsideBoundaries();
+
+            Debug.Log("Contact with objects: " + madeContact);
+            Debug.Log("Objects outside boundaries: " + outsideBoundaries);
+
+            // Trigger appropriate ending based on contact and boundaries
+            if (madeContact)
+            {
+                if (!outsideBoundaries)
+                {
+                    gameManager.TriggerIWillBeBackEnding();
+                }
+                else
+                {
+                    gameManager.TriggerChaosEnding();
+                }
+            }
+            else
             {
                 gameManager.TriggerHappyOwnerEnding();
             }
@@ -185,48 +202,37 @@ namespace team16
             }
         }
 
-        // Called when the cat paw collides with another object
-        private void OnCollisionEnter(Collision collision)
+        // Check if the cat paw collides with any object
+        // Check if the cat paw collides with any object tagged as "Tag0"
+        private bool CheckContactWithObjects()
         {
-            // Check if the collision is with a valid object
-            if (collision.gameObject.CompareTag("Tag0"))
+            Collider[] colliders = Physics.OverlapSphere(catPaw.position, swipeDistance);
+            foreach (var collider in colliders)
             {
-                // Apply an impulse force to the collided object
-                Rigidbody collidedRigidbody = collision.gameObject.GetComponent<Rigidbody>();
-                if (collidedRigidbody != null)
+                if (collider.CompareTag("Tag0"))
                 {
-                    // Add an impulse force in the direction of the cat paw's movement
-                    Vector3 forceDirection = catPaw.velocity.normalized;
-                    collidedRigidbody.AddForce(forceDirection * whackValue, ForceMode.Impulse);
-                }
-
-                // Check if all Tag0 objects are outside camera view
-                bool allObjectsOutsideCameraView = true;
-                GameObject[] tag0Objects = GameObject.FindGameObjectsWithTag("Tag0");
-                foreach (GameObject obj in tag0Objects)
-                {
-                    if (IsObjectInView(obj))
-                    {
-                        allObjectsOutsideCameraView = false;
-                        break;
-                    }
-                }
-
-                if (allObjectsOutsideCameraView)
-                {
-                    // Trigger chaos ending
-                    soundManager.audioSource.Stop();
-                    gameManager.TriggerChaosEnding();
-                    ReportGameCompletedEarly();
+                    Debug.Log("Contact with object tagged as 'Tag0' detected.");
+                    return true;
                 }
             }
+            Debug.Log("No contact with objects tagged as 'Tag0'.");
+            return false;
         }
 
-        // Check if an object is outside camera view
-        private bool IsObjectInView(GameObject obj)
+
+        // Check if all Tag0 objects are outside boundary constraints
+        private bool CheckObjectsOutsideBoundaries()
         {
-            Vector3 screenPoint = Camera.main.WorldToViewportPoint(obj.transform.position);
-            return screenPoint.x < 0 || screenPoint.x > 1 || screenPoint.y < 0 || screenPoint.y > 1;
+            GameObject boundary = GameObject.FindGameObjectWithTag("Tag10");
+            if (boundary != null)
+            {
+                bool isOutsideBoundaries = !boundary.GetComponent<BoundaryConstraint>().IsWithinBoundaries(catPaw.position);
+                Debug.Log("Objects outside boundaries: " + isOutsideBoundaries);
+                return isOutsideBoundaries;
+            }
+            Debug.Log("No boundary object found.");
+            return false;
         }
+
     }
 }

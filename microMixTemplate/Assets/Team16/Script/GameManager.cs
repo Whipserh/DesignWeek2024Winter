@@ -24,7 +24,6 @@ namespace team16
         {
             if (!gameEnded)
             {
-                ReportGameCompletedEarly();
                 gameEnded = true;
                 // Display happy owner ending prefab
                 Instantiate(secretEndingPrefab);
@@ -37,7 +36,7 @@ namespace team16
         {
             if (!gameEnded)
             {
-                //ReportGameCompletedEarly();
+                ReportGameCompletedEarly();
                 gameEnded = true;
                 // Display chaos ending prefab
                 Instantiate(goodEndingPrefab);
@@ -50,7 +49,6 @@ namespace team16
         {
             if (!gameEnded)
             {
-                ReportGameCompletedEarly();
                 gameEnded = true;
                 // Display I will be back ending prefab
                 Instantiate(badEndingPrefab);
