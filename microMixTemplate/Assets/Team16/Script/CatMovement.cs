@@ -9,6 +9,8 @@ namespace team16
         public GameManager gameManager;
         public SoundManager soundManager;
 
+        private AudioSource audioSource;
+
         public Rigidbody catPaw;
         public float pawSpeed = 5f;
 
@@ -46,12 +48,17 @@ namespace team16
             isTimeUp = false;
 
             initialRotation = catPaw.rotation;
+
+            // Get the AudioSource component
+            audioSource = soundManager.GetComponent<AudioSource>();
         }
 
         // Called when time is up in the microgame
         protected override void OnTimesUp()
         {
             isTimeUp = true;
+
+            audioSource.Stop();
 
             bool outsideCameraView = AreAllTag0ObjectsOutsideCameraView();
 
@@ -93,6 +100,7 @@ namespace team16
                     gameManager.TriggerChaosEnding();
                     if (ending)
                     {
+                        audioSource.Stop();
                         ReportGameCompletedEarly();
                         ending = false;
                     }
