@@ -54,18 +54,28 @@ MonoBehaviour:
   - Ryan McBride
   - Zachary Richardson
   licensedWorksCredits:
+  - titleOfWork: Furniture Kit
+    creator: Kenney
+    source: 
+    url: https://kenney.nl/assets/furniture-kit
+    licence: Creative Commons CC0
   - titleOfWork: Jazz Comedy
     creator: Royalty Free Music
     source: 
     url: https://www.bensound.com/royalty-free-music/track/jazz-comedy
-    licence: 'License code: SAWYTJFCM9NVQJNM'
-  - titleOfWork: Furniture Kit
-    creator: Kenney
+    licence: SAWYTJFCM9NVQJNM
+  - titleOfWork: Cute
+    creator: Royalty Free Music
     source: 
-    url: https://kenney.nl/assets/furniture-kit
-    licence: Creative Commons CC0
-  - titleOfWork: Furniture Kit
-    creator: Kenney
+    url: https://www.bensound.com/royalty-free-music/track/cute
+    licence: FVFJMNED1YGSZT7B
+  - titleOfWork: Low Poly Food Lite
+    creator: JustCreate
     source: 
-    url: https://kenney.nl/assets/furniture-kit
-    licence: Creative Commons CC0
+    url: https://assetstore.unity.com/packages/3d/props/food/low-poly-food-lite-258693
+    licence: Standard Unity Asset Store EULA
+  - titleOfWork: 2d Flat Explosion
+    creator: Osama Deep
+    source: 
+    url: https://assetstore.unity.com/packages/2d/textures-materials/2d-flat-explosion-66932
+    licence: Standard Unity Asset Store EULA
