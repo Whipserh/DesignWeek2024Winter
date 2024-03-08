@@ -17,5 +17,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Examples/Team99/Tooth Rush/Scenes/Tooth Rush - 2P.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Team16/Scene/CattackP1.unity
+    guid: 5901702471ac3164fa8c2b83b2edcf33
+  - enabled: 1
+    path: Assets/Team16/Scene/CattackP2.unity
+    guid: 49bae926d0eabe8438c04d192ff4cadf
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 28bfde271760c454b943706b4892c800, type: 2}
