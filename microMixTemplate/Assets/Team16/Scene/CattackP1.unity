@@ -5543,6 +5543,18 @@ PrefabInstance:
       propertyPath: swipeParticle
       value: 
       objectReference: {fileID: 423185685}
+    - target: {fileID: 810042503723772113, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
+      propertyPath: idlePosition.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 810042503723772113, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
+      propertyPath: idlePosition.y
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 810042503723772113, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
+      propertyPath: idlePosition.z
+      value: -1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1637242149085267266, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5569,15 +5581,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4907488125445843027, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.33
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 4907488125445843027, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.86
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 4907488125445843027, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: -1.8
       objectReference: {fileID: 0}
     - target: {fileID: 4907488125445843027, guid: 83967a70bacacbf4c8e5386282b0b317, type: 3}
       propertyPath: m_LocalRotation.w
