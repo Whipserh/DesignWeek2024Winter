@@ -452,6 +452,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855119497}
     m_Modifications:
+    - target: {fileID: 1656686350535666746, guid: dea16b4a9ed78e749bea84251f9928f4, type: 3}
+      propertyPath: m_Constraints
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 3997149839228476968, guid: dea16b4a9ed78e749bea84251f9928f4, type: 3}
       propertyPath: m_Name
       value: Donut_02 (1)
@@ -534,6 +538,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855119497}
     m_Modifications:
+    - target: {fileID: 858613029551336288, guid: 2886879a357131648b5c317fbdb55802, type: 3}
+      propertyPath: m_Constraints
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 2565166678401075572, guid: 2886879a357131648b5c317fbdb55802, type: 3}
       propertyPath: m_Name
       value: lampRoundTable
@@ -893,6 +901,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855119497}
     m_Modifications:
+    - target: {fileID: 1803170877777359474, guid: 442e028e7e7b1c1489cc57c02265a803, type: 3}
+      propertyPath: m_Constraints
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 4673113069156628672, guid: 442e028e7e7b1c1489cc57c02265a803, type: 3}
       propertyPath: m_Name
       value: Plate_01 (1)
@@ -1442,6 +1454,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855119497}
     m_Modifications:
+    - target: {fileID: 1656686350535666746, guid: dea16b4a9ed78e749bea84251f9928f4, type: 3}
+      propertyPath: m_Constraints
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 3997149839228476968, guid: dea16b4a9ed78e749bea84251f9928f4, type: 3}
       propertyPath: m_Name
       value: Donut_02
@@ -1601,6 +1617,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855119497}
     m_Modifications:
+    - target: {fileID: 1803170877777359474, guid: 442e028e7e7b1c1489cc57c02265a803, type: 3}
+      propertyPath: m_Constraints
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 4673113069156628672, guid: 442e028e7e7b1c1489cc57c02265a803, type: 3}
       propertyPath: m_Name
       value: Plate_01
@@ -1766,6 +1786,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1855119497}
     m_Modifications:
+    - target: {fileID: 858613029551336288, guid: 2886879a357131648b5c317fbdb55802, type: 3}
+      propertyPath: m_Constraints
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 2565166678401075572, guid: 2886879a357131648b5c317fbdb55802, type: 3}
       propertyPath: m_Name
       value: lampRoundTable (1)
